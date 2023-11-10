@@ -3,6 +3,8 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:nr_soporte_mobile/src/presentation/pages/auth/login/login_responses.dart';
 import 'package:nr_soporte_mobile/src/presentation/pages/auth/login/login_view_model.dart';
 import 'package:nr_soporte_mobile/src/presentation/utils/color_palette.dart';
+import 'package:nr_soporte_mobile/src/presentation/widgets/default_button.dart';
+import 'package:nr_soporte_mobile/src/presentation/widgets/default_textfield.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
@@ -13,7 +15,9 @@ class LoginPage extends StatelessWidget {
 
     LoginViewModel vm = Provider.of<LoginViewModel>(context);
 
-    LoginResponses(context, vm);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      LoginResponses(context, vm);
+    });
 
     return Scaffold(
       backgroundColor: COLOR_GREY,
@@ -23,25 +27,30 @@ class LoginPage extends StatelessWidget {
           ClipPath(
             clipper: WaveClipperTwo(),
             child: Container(
-              height: 250,
+              height: 220,
               color: COLOR_WINE,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/img/logo-nr.png',
-                    height: 100,
-                    width: 200,
-                  ),
-                  const Text(
-                    'Soporte',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+                  Column(
+                    children: [
+                      Image.asset(
+                        'assets/img/logo-nr.png',
+                        height: 200,
+                        width: 200,
+                      ),
+                      // const Text(
+                      //   'Soporte',
+                      //   style: TextStyle(
+                      //     fontSize: 22,
+                      //     fontWeight: FontWeight.bold,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
+                    ],
+                  )
+                ]
               ),
             ),
           ),
@@ -66,95 +75,50 @@ class LoginPage extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(),
+          //const Spacer(),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: TextField(
+            child: DefaultTextfield(
+              label: 'Correo',
               onChanged: (value) {
-                vm.changeUsername(value);
+                vm.changeEmail(value);
               },
-              decoration: const InputDecoration(
-                label: Text('Usuario'),
-                labelStyle: TextStyle(
-                  color: Colors.white,
-                ),
-                suffixIcon: Icon(
-                  Icons.email_outlined,
-                  color: Colors.white,
-                )
-              ),
-              style: const TextStyle(
-                color: Colors.white,
-              ),
+              icon: Icons.email_outlined,
             ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: TextField(
+            child: DefaultTextfield(
               onChanged: (value) {
                 vm.changePassword(value);
               },
-              decoration: const InputDecoration(
-                label: Text('Contrasena'),
-                labelStyle: TextStyle(
-                  color: Colors.white,
-                ),
-                suffixIcon: Icon(
-                  Icons.lock_outline,
-                  color: Colors.white,
-                )
-              ),
-              style: const TextStyle(
-                color: Colors.white,
-              ),
+              label: 'Contrasenaa',
+              icon: Icons.lock_outline,
             ),
           ),
           Container(
             width: double.infinity,
             margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-            child: ElevatedButton(
+            child: DefaultButton(
               onPressed: () {
                 vm.login();
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: COLOR_WINE,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)
-                )
-              ),
-              child: Stack(
-                children: [
-                  Container(
-                    height: 50,
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'Iniciar sesion',
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 50,
-                    alignment: Alignment.centerRight,
-                    child: const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              ),
+              label: 'Iniciar sesion'
+            ),
           ),
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(bottom: 40),
-            child: const Text(
-              'No tienes cuenta?',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, 'register');
+              },
+              child: const Text(
+                'No tienes cuenta?',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
               ),
             ),
           ),

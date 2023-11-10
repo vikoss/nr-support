@@ -15,8 +15,8 @@ class LoginViewModel extends ChangeNotifier {
   Resource get response => _response;
 
   // SETTERS
-  void changeUsername(String value) {
-    _state = _state.copyWith(username: ValidationItem(value: value));
+  void changeEmail(String value) {
+    _state = _state.copyWith(email: ValidationItem(value: value));
     notifyListeners();
   }
   void changePassword(String value) {
@@ -26,21 +26,26 @@ class LoginViewModel extends ChangeNotifier {
 
   AuthUseCases _authUseCases;
   LoginViewModel(this._authUseCases) {
-    print('User session: ${_authUseCases.currentUser.session}');
-    final user = _authUseCases.currentUser.session;
+    print('Current User: ${_authUseCases.currentUser.session}');
+    print('User session: ${_authUseCases.user.userSession}');
+    final user = _authUseCases.user.userSession;
     if (user != null) {
       _response = Success(user);
     }
+    /* final user = _authUseCases.currentUser.session;
+    if (user != null) {
+      _response = Success(user);
+    } */
   }
 
   void login() async {
-    print('Username: ${_state.username.value}');
+    print('email: ${_state.email.value}');
     print('Pwd: ${_state.password.value}');
     _response = Loading();
     print('Data: $_response');
     notifyListeners();
     _response = await _authUseCases.login.launch(
-      username: _state.username.value,
+      email: _state.email.value,
       password: _state.password.value
     );
     notifyListeners();

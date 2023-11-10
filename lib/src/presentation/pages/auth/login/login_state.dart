@@ -1,19 +1,19 @@
 import 'package:nr_soporte_mobile/src/presentation/utils/validation_item.dart';
 
 class LoginState {
-  ValidationItem username;
+  ValidationItem email;
   ValidationItem password;
 
   LoginState({
-    this.username = const ValidationItem(),
+    this.email = const ValidationItem(),
     this.password = const ValidationItem(),
   });
 
   LoginState copyWith({
-    ValidationItem? username,
+    ValidationItem? email,
     ValidationItem? password,
   }) => LoginState(
-    username: username ?? this.username,
+    email: email ?? this.email,
     password: password ?? this.password,
   );
 }
